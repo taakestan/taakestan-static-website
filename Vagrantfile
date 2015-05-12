@@ -12,7 +12,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/trusty32"
+  config.vm.box = "ubuntu/trusty64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -22,7 +22,7 @@ Vagrant.configure(2) do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "forwarded_port", guest: 4242, host: 4242
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -71,9 +71,14 @@ Vagrant.configure(2) do |config|
      command curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
      curl -sSL https://get.rvm.io | bash -s stable --ruby=2.2.1
      source /usr/local/rvm/scripts/rvm
+     sudo usermod -a -G rvm vagrant
+
+     # For Nokogiri gem
+     sudo apt-get install libxslt-dev libxml2-dev
 
      rvm use 2.2.1
      rvm cleanup all
+     gem install bundler
      gem install awestruct -v 0.5.6.beta8 --no-rdoc --no-ri
   SHELL
 end
